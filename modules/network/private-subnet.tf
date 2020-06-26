@@ -15,7 +15,7 @@ resource "aws_instance" "nat" {
   instance_type     = "t2.micro"
   subnet_id         = "${local.pub_sub_ids[0]}"
   source_dest_check = false
-  security_group_id = ["${aws_security_group.nat_sg.id}"]
+  vpc_security_group_ids = ["${aws_security_group.nat_sg.id}"]
   tags = {
     Name = "JenkinsBuildNAt"
   }

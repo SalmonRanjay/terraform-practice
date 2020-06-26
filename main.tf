@@ -16,3 +16,8 @@ module "network" {
     source = "./modules/network"
     
 }
+
+module "compute"{
+    source = "./modules/compute"
+    pub_sub_ids = module.network.pub_sub_ids
+}

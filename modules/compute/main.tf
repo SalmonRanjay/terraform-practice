@@ -1,3 +1,11 @@
+locals {
+  env_tag = {
+    Environment = "${terraform.workspace}"
+  }
+
+  web_tags = "${merge(var.web_tags,local.env_tag)}"
+}
+
 data "aws_ami" "ubuntu" {
   most_recent = true
 
@@ -18,7 +26,7 @@ data "aws_ami" "centos" {
 
   filter {
     name   = "name"
-    values = ["amzn2-ami-hvm-2\kjhg8u90-*"]
+    values = ["amzn2-ami-hvm-2.0*"]
   }
 
   filter {
@@ -26,7 +34,7 @@ data "aws_ami" "centos" {
     values = ["hvm"]
   }
 
-  owners = ["099720109477"] # Canonical
+  owners = ["137112412989"] # Canonical
 }
 
 
@@ -49,10 +57,11 @@ data "aws_ami" "amzlinux" {
 }
 
 resource "aws_instance" "web" {
+  count         = "${var.web_ec2_count}"
   ami           = "${data.aws_ami.centos.id}"
   instance_type = "t2.micro"
+  subnet_id     = "${var.pub_sub_ids[count.index]}"
+  user_data     = "${file("./apache.sh)}"
 
-  tags = {
-    Name = "HelloWorld"
-  }
+  tags = "${local.web_tags}"
 }
