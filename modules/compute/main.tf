@@ -61,7 +61,8 @@ resource "aws_instance" "web" {
   ami           = "${data.aws_ami.centos.id}"
   instance_type = "t2.micro"
   subnet_id     = "${var.pub_sub_ids[count.index]}"
-  user_data     = "${file("./apache.sh)}"
+  user_data     = "${file("${path.module}/apache.sh")}"
+  vpc_security_group_ids = ["${var.web_security_group}"]
 
   tags = "${local.web_tags}"
 }

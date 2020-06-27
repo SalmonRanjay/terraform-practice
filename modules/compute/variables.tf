@@ -22,3 +22,8 @@ variable "pub_sub_ids" {
     type = "list"
     default = [""]
 }
+
+variable "web_security_group" {
+    type = string
+    description = "WEB SECURITY GROUP"
+}

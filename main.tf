@@ -14,10 +14,12 @@ terraform{
 
 module "network" {
     source = "./modules/network"
+    my_app_s3_bucket = "randominput"
     
 }
 
 module "compute"{
     source = "./modules/compute"
     pub_sub_ids = module.network.pub_sub_ids
+    web_security_group = module.network.web_security_group
 }

@@ -17,3 +17,8 @@ variable "nat_amis" {
         us-east-2 = "ami-00d1f8201864cc10c"
     }
 }
+
+variable "my_app_s3_bucket" {
+    type = string
+    description = "S3 bucket name"
+}
